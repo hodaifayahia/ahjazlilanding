@@ -1,30 +1,32 @@
 'use client';
 
 import { Link } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Emoji } from 'react-apple-emojis';
 
 export default function Footer() {
     const t = useTranslations('Footer');
+    const locale = useLocale();
+    const appUrl = 'https://app.ahjazliqaati.com';
 
     const footerLinks = {
         platform: [
-            { name: t('links.browse_venues'), href: '/salles' },
-            { name: t('links.list_venue'), href: '/register' },
+            { name: t('links.browse_venues'), href: `${appUrl}/${locale}/salles` },
+            { name: t('links.list_venue'), href: `${appUrl}/${locale}/register` },
             { name: t('links.how_it_works'), href: '/#how-it-works' },
             { name: t('links.for_owners'), href: '/#pricing' },
         ],
         categories: [
-            { name: t('links.wedding_halls'), href: '/salles?category=wedding-hall' },
-            { name: t('links.event_salons'), href: '/salles?category=event-salon' },
-            { name: t('links.conference_rooms'), href: '/salles?category=conference-room' },
-            { name: t('links.outdoor_venues'), href: '/salles?category=garden-outdoor' },
+            { name: t('links.wedding_halls'), href: `${appUrl}/${locale}/salles?category=wedding-hall` },
+            { name: t('links.event_salons'), href: `${appUrl}/${locale}/salles?category=event-salon` },
+            { name: t('links.conference_rooms'), href: `${appUrl}/${locale}/salles?category=conference-room` },
+            { name: t('links.outdoor_venues'), href: `${appUrl}/${locale}/salles?category=garden-outdoor` },
         ],
         locations: [
-            { name: t('links.algiers'), href: '/salles?location=algiers' },
-            { name: t('links.oran'), href: '/salles?location=oran' },
-            { name: t('links.constantine'), href: '/salles?location=constantine' },
-            { name: t('links.all_wilayas'), href: '/salles' },
+            { name: t('links.algiers'), href: `${appUrl}/${locale}/salles?location=algiers` },
+            { name: t('links.oran'), href: `${appUrl}/${locale}/salles?location=oran` },
+            { name: t('links.constantine'), href: `${appUrl}/${locale}/salles?location=constantine` },
+            { name: t('links.all_wilayas'), href: `${appUrl}/${locale}/salles` },
         ],
         support: [
             { name: t('links.faq'), href: '/#faq' },
@@ -100,9 +102,11 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {footerLinks.platform.map((link) => (
                                 <li key={link.name}>
-                                    <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">
-                                        {link.name}
-                                    </Link>
+                                    {link.href.startsWith('http') || link.href.startsWith('/#') ? (
+                                        <a href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</a>
+                                    ) : (
+                                        <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</Link>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -114,9 +118,7 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {footerLinks.categories.map((link) => (
                                 <li key={link.name}>
-                                    <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">
-                                        {link.name}
-                                    </Link>
+                                    <a href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</a>
                                 </li>
                             ))}
                         </ul>
@@ -128,9 +130,7 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {footerLinks.locations.map((link) => (
                                 <li key={link.name}>
-                                    <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">
-                                        {link.name}
-                                    </Link>
+                                    <a href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</a>
                                 </li>
                             ))}
                         </ul>
@@ -142,9 +142,11 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {footerLinks.support.map((link) => (
                                 <li key={link.name}>
-                                    <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">
-                                        {link.name}
-                                    </Link>
+                                    {link.href.startsWith('http') || link.href.startsWith('mailto') || link.href.startsWith('/#') ? (
+                                        <a href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</a>
+                                    ) : (
+                                        <Link href={link.href} className="text-sm hover:text-primary-400 transition-colors">{link.name}</Link>
+                                    )}
                                 </li>
                             ))}
                         </ul>

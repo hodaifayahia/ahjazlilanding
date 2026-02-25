@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ahjazliqaati.com/sitemap.xml
+
+# Block crawling of internal auth routes
+Disallow: /*/login
+Disallow: /*/register
+Disallow: /*/auth/

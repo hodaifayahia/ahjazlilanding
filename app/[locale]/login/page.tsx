@@ -12,13 +12,15 @@ export default function LoginPage() {
   const locale = useLocale();
   const supabase = createClient();
 
+  const appUrl = 'https://app.ahjazliqaati.com';
+
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/${locale}/auth/callback`,
+        redirectTo: `${appUrl}/${locale}/auth/callback`,
       },
     });
     if (error) {
@@ -40,13 +42,13 @@ export default function LoginPage() {
       : await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/${locale}/auth/callback` },
+          options: { emailRedirectTo: `${appUrl}/${locale}/auth/callback` },
         });
 
     if (error) {
       setError(error.message);
     } else if (isLogin) {
-      window.location.href = `/${locale}/salles`;
+      window.location.href = `${appUrl}/${locale}/salles`;
     } else {
       setError('Check your email for the confirmation link.');
     }
