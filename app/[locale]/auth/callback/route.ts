@@ -11,6 +11,14 @@ export async function GET(
   const code = requestUrl.searchParams.get('code');
   const locale = params.locale ?? 'en';
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ahjazlilanding-production.up.railway.app').replace(/\/$/, '');
+  const publicVenueFallbackUrl = 'https://ahjazlivenue-production.up.railway.app';
+  const configuredVenueUrl = process.env.NEXT_PUBLIC_VENUE_APP_URL?.replace(/\/$/, '');
+  const isInvalidExternalUrl =
+    !configuredVenueUrl ||
+    configuredVenueUrl.includes('localhost') ||
+    configuredVenueUrl.includes('127.0.0.1') ||
+    configuredVenueUrl.includes('.railway.internal');
+  const venueBaseUrl = isInvalidExternalUrl ? publicVenueFallbackUrl : configuredVenueUrl;
 
   if (code) {
     const cookieStore = cookies();
@@ -34,6 +42,6 @@ export async function GET(
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  // Redirect to salles page after successful login
-  return NextResponse.redirect(new URL(`/${locale}/salles`, siteUrl));
+  // Redirect to venue dashboard after successful login
+  return NextResponse.redirect(new URL('/dashboard', venueBaseUrl));
 }

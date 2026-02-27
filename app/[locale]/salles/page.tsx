@@ -15,6 +15,7 @@ export default async function SallesPage({
     redirect(`/${locale}/login`);
   }
 
+  const publicVenueFallbackUrl = 'https://ahjazlivenue-production.up.railway.app';
   const configuredVenueUrl = process.env.NEXT_PUBLIC_VENUE_APP_URL?.replace(/\/$/, '');
   const isInvalidExternalUrl =
     !configuredVenueUrl ||
@@ -22,9 +23,6 @@ export default async function SallesPage({
     configuredVenueUrl.includes('127.0.0.1') ||
     configuredVenueUrl.includes('.railway.internal');
 
-  if (isInvalidExternalUrl) {
-    redirect(`/${locale}`);
-  }
-
-  redirect(`${configuredVenueUrl}/${locale}/salles`);
+  const venueBaseUrl = isInvalidExternalUrl ? publicVenueFallbackUrl : configuredVenueUrl;
+  redirect(`${venueBaseUrl}`);
 }
