@@ -7,25 +7,29 @@ import { Emoji } from 'react-apple-emojis';
 export default function Footer() {
     const t = useTranslations('Footer');
     const locale = useLocale();
+    const rawVenueUrl = process.env.NEXT_PUBLIC_VENUE_APP_URL?.replace(/\/$/, '');
+    const venueAppUrl = !rawVenueUrl || rawVenueUrl.includes('localhost') || rawVenueUrl.includes('127.0.0.1') || rawVenueUrl.includes('.railway.internal')
+        ? 'https://ahjazlivenue-production.up.railway.app'
+        : rawVenueUrl;
 
     const footerLinks = {
         platform: [
-            { name: t('links.browse_venues'), href: `/${locale}/salles` },
+            { name: t('links.browse_venues'), href: `${venueAppUrl}` },
             { name: t('links.list_venue'), href: `/${locale}/register` },
             { name: t('links.how_it_works'), href: '/#how-it-works' },
             { name: t('links.for_owners'), href: '/#pricing' },
         ],
         categories: [
-            { name: t('links.wedding_halls'), href: `/${locale}/salles?category=wedding-hall` },
-            { name: t('links.event_salons'), href: `/${locale}/salles?category=event-salon` },
-            { name: t('links.conference_rooms'), href: `/${locale}/salles?category=conference-room` },
-            { name: t('links.outdoor_venues'), href: `/${locale}/salles?category=garden-outdoor` },
+            { name: t('links.wedding_halls'), href: `${venueAppUrl}/salles?category=wedding-hall` },
+            { name: t('links.event_salons'), href: `${venueAppUrl}/salles?category=event-salon` },
+            { name: t('links.conference_rooms'), href: `${venueAppUrl}/salles?category=conference-room` },
+            { name: t('links.outdoor_venues'), href: `${venueAppUrl}/salles?category=garden-outdoor` },
         ],
         locations: [
-            { name: t('links.algiers'), href: `/${locale}/salles?location=algiers` },
-            { name: t('links.oran'), href: `/${locale}/salles?location=oran` },
-            { name: t('links.constantine'), href: `/${locale}/salles?location=constantine` },
-            { name: t('links.all_wilayas'), href: `/${locale}/salles` },
+            { name: t('links.algiers'), href: `${venueAppUrl}/salles?location=algiers` },
+            { name: t('links.oran'), href: `${venueAppUrl}/salles?location=oran` },
+            { name: t('links.constantine'), href: `${venueAppUrl}/salles?location=constantine` },
+            { name: t('links.all_wilayas'), href: `${venueAppUrl}/salles` },
         ],
         support: [
             { name: t('links.faq'), href: '/#faq' },

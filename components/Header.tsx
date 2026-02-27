@@ -10,6 +10,10 @@ export default function Header() {
   const t = useTranslations('Header');
   const locale = useLocale();
   const pathname = usePathname();
+  const rawVenueUrl = process.env.NEXT_PUBLIC_VENUE_APP_URL?.replace(/\/$/, '');
+  const venueAppUrl = !rawVenueUrl || rawVenueUrl.includes('localhost') || rawVenueUrl.includes('127.0.0.1') || rawVenueUrl.includes('.railway.internal')
+    ? 'https://ahjazlivenue-production.up.railway.app'
+    : rawVenueUrl;
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -23,7 +27,7 @@ export default function Header() {
   }, []);
 
   const navigation = [
-    { name: t('browse_venues'), href: `/${locale}/salles` },
+    { name: t('browse_venues'), href: `${venueAppUrl}` },
     { name: t('how_it_works'), href: '/#how-it-works' },
     { name: t('for_owners'), href: '/#pricing' },
     { name: t('faq'), href: '/#faq' },
