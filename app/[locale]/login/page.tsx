@@ -11,11 +11,14 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const locale = useLocale();
   const supabase = createClient();
+  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+
+  const getAppUrl = () => configuredSiteUrl || window.location.origin;
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError(null);
-    const appUrl = window.location.origin;
+    const appUrl = getAppUrl();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -36,7 +39,7 @@ export default function LoginPage() {
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
-    const appUrl = window.location.origin;
+    const appUrl = getAppUrl();
     const { error } = isLogin
       ? await supabase.auth.signInWithPassword({ email, password })
       : await supabase.auth.signUp({
