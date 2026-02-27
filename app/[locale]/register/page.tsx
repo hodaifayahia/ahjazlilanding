@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 
-export default function RegisterPage({
-  params: { locale },
+export default async function RegisterPage({
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   redirect(`https://app.ahjazliqaati.com/${locale}/register`);
 }

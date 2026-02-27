@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 
-export default function SallesPage({
-  params: { locale },
+export default async function SallesPage({
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   redirect(`https://app.ahjazliqaati.com/${locale}/salles`);
 }

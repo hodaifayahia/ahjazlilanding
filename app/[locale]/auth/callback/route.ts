@@ -4,14 +4,14 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  { params }: { params: { locale: string } }
+  { params }: { params: Promise<{ locale: string }> }
 ) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
-  const locale = params.locale ?? 'en';
+  const { locale = 'en' } = await params;
 
   if (code) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
